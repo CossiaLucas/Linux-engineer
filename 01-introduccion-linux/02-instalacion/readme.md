@@ -99,18 +99,99 @@ El disco virtual no corresponde a un disco físico independiente. VirtualBox se 
 
 Una vez confirmada la configuración, finalizamos la creación de la máquina virtual.
 
-### 2. Instalación del sistema.
+### **2. Instalación del sistema.**
 
+El proceso de instalacion puede extenderse bastantes, cosas automaticas como ingresar el nombre de la cuenta o seleccion de idiomas seran mencionados por en cima,
+para prestar mas atencion a cosas mas interesantes como el usuario root o la particion del disco, que haremos de manera manual.
 
+---
 
+Se puede realizar en modo texto o en modo gráfico. En Debian el modo gráfico es el método
+seleccionado automáticamente, pero se puede elegir el modo texto desde el menú.
 
-3. Configuración de red.
-4. Actualización de paquetes.
-5. Creación del usuario.
-6. Configuración inicial.
+La instalación es secuencial, para desplazarse entre los distintos “botones” se usa la tecla TAB.
+Para seleccionar un cuadro de opción se presiona la barra espaciadora.
+
+Luego se puede elegir el idioma de instalación, la ubicación geográfica y el esquema del teclado
+
+---
+
+Se debe definir un nombre para la máquina y, opcionalmente, un nombre de dominio. 
+Además, la red se configura mediante DHCP, de manera predeterminada
+
+![Imagen de DOMINIO](./screenshots/img04.png)
+
+El dominio en la instalacion es opcional, pero si estuvieramos bajando una imagen en una empresa.
+Tenemos que poner la direccion del dominio de la empresa
+
+---
+
+Despues tenemos que hacer la configuracion de los usuarios.
+Principalmente la definicion de la contraseña del superusuario (root) y ademas crear un usuario sin privilegios
+El root es la cuenta de usuario principal con permisos de superusuario o administrador total en el SO.
+
+* Control absoluto: Tienes acceso libre para ver, modificar, crear o borrar cualquier archivo del sistema, incluso los protegidos.
+* Superusuario: Puedes otorgar o negar permisos especiales a aplicaciones y programas del sistema.
+
+---
+
+Ahora se tiene que particionar el disco 
+
+![Imagen de las particiones](./screenshots/img05.png)
+
+Debian nos brinda la opcion de realizar un particionamiento guiado, en esta practica elegiremos realizarlo de manera manual para poder explicar acerca de eso.
+Las particiones las haremos de la siguiente manera
+
+| Partición | Tamaño | Sistema de archivos | Punto de montaje | Función                                        |
+| --------- | -----: | ------------------- | ---------------- | ---------------------------------------------- |
+| EFI       | 512 MB | FAT32               | `/boot/efi`      | Archivos necesarios para arrancar en modo UEFI |
+| `/`       |  12 GB | ext4                | `/`              | Sistema operativo, programas y configuraciones |
+| `/home`   |  10 GB | ext4                | `/home`          | Archivos personales de los usuarios            |
+| swap      | 2.5 GB | swap                | —                | Memoria de intercambio                         |
+
+![Imagen final de las particiones](./screenshots/img06.png)
+
+La swap permite utilizar espacio del almacenamiento como respaldo de la memoria RAM 
+cuando el sistema necesita liberar memoria 
+o cuando determinadas páginas de memoria son trasladadas temporalmente al almacenamiento.
+
+---
+
+Posteriormente, realizamos la descarga de los gestores de paquete. Debian utiliza APT (Advanced Package Tool) como sistema de gestión de paquetes de alto nivel.
+
+APT permite:
+
+instalar software;
+actualizar paquetes;
+eliminar paquetes;
+resolver dependencias;
+obtener software desde repositorios configurados.
+
+Primero determinaremos la zona donde descargaremos los paquetes y posteriormente elegiremos algunos para descargar
+
+![Paquetes a instalar](./screenshots/img08.png)
+
+Los primeros 9 paquetes (O aquellos que inician con 3 puntos) son interfaces graficas, si vamos a realizar la instalacion de un servidor estas no son necesarias, pero para este caso, 
+vamos a bajar GNOME que es la mas basica, y a su vez, una muy comoda.
+Asi tambien vamos a seleccionar principalmente SSH Server.
+SSH permite administrar remotamente un equipo mediante una conexión segura.
+Desde otra maquina nos podriamos conectar mediante 
+`ssh usuario@192.168.1.100`
+
+El resto de paquetes no son necesarios
+
+---
+
+Finalmente debemos instalar el bootloader, encargado de iniciar el sistema operativo una vez que la máquina se enciende.
+
+En Debian se utiliza habitualmente GRUB.
+
+Su función es permitir que el firmware de la máquina encuentre y cargue el sistema operativo y su kernel.
 
 ## Resultado
 
 Sistema instalado y funcionando correctamente.
+
+![Resultado Final](./screenshots/img09.png)
 
 

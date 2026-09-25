@@ -44,19 +44,107 @@ Una ruta relativa se interpreta tomando como referencia el directorio actual.
 documentos/archivo.txt
 ```
 
-### FHS
+---
 
-FHS (Filesystem Hierarchy Standard), un estándar a seguir para las
-distribuciones de Linux, que se refiere a la forma en que se utiliza el sistema de archivos en Linux.
+## FHS
+
+FHS (Filesystem Hierarchy Standard) es un estándar que define la organización y propósito de los principales directorios y archivos de un sistema Unix/Linux.
 Los FHS se dividen en dos grupos principalmente:
 
 * Shareables/Unshareables 
 
-Los datos pueden ser usados pos multiples sistemas en una *red*. Por ende, los archivos son compartidos.
+El FHS clasifica determinados datos según si podrían ser compartidos entre diferentes sistemas o si están vinculados a una máquina concreta. Esta clasificación es conceptual y no implica que el sistema los comparta automáticamente por red.
 
 * Variables/Static
 
+***Variables.***
 
+    Información que cambia durante el funcionamiento normal del sistema, como logs, cachés, colas de impresión o datos generados por servicios.
+
+***Static.***
+    Información cuyo contenido no cambia durante la operación normal del sistema, o que cambia solamente mediante acciones administrativas.
+
+| Directorio | Función                                                                                                     |
+| ---------- | ----------------------------------------------------------------------------------------------------------- |
+| `/`        | Raíz de la jerarquía del sistema de archivos.                                                               |
+| `/boot`    | Archivos necesarios para el proceso de arranque.                                                            |
+| `/etc`     | Archivos de configuración específicos del sistema.                                                          |
+| `/home`    | Directorios personales de los usuarios.                                                                     |
+| `/opt`     | Software adicional instalado como paquetes de terceros.                                                     |
+| `/tmp`     | Archivos temporales.                                                                                        |
+| `/usr`     | Jerarquía secundaria que contiene gran parte de los programas, bibliotecas y datos compartidos del sistema. |
+| `/var`     | Datos variables, como logs, cachés y colas.                                                                 |
+
+### Binarios
+
+Los directorios bin y sbin, se llaman así porque poseen archivos ejecutables. La mayoría están ya compilados como binarios.
+
+
+FHS sirve como una guía para ubicar y encontrar archivos y directorios, pero eso no garantiza la posibilidad de encontrar cualquier archivo.
+
+| Comando   | Para qué sirve                                                                  |
+| --------- | ------------------------------------------------------------------------------- |
+| `which`   | Busca ejecutables utilizando las rutas definidas en `PATH`.                     |
+| `find`    | Busca archivos y directorios recorriendo el sistema de archivos en tiempo real. |
+| `whereis` | Busca la ubicación de un binario, su código fuente y/o sus páginas de manual.   |
+| `locate`  | Busca rápidamente utilizando una base de datos previamente indexada.            |
+
+
+### update db
+
+`updatedb` crea o actualiza la base de datos utilizada por `locate/plocate`.
+Ejemplo para actualizar solo lo contenido en un grupo de directorios:
+
+```
+sudo updatedb
+```
+Posteriormente podemos utilizar:
+```
+locate archivo.txt
+```
+
+### Comando file
+
+    `file` analiza el contenido del archivo utilizando información y patrones conocidos para determinar su tipo. Por este motivo, la extensión del archivo no es necesariamente determinante.
+
+**Opciones**
+`-f` => Busca por cada línea que hay en el archivo que se le invoque.
+`-z` => Intenta ver dentro de los archivos comprimidos.
+
+---
+
+## Manual
+
+Las páginas de manual (`man pages`) son una de las principales fuentes de documentación local de los sistemas Linux. Permiten consultar la descripción, sintaxis, opciones, argumentos, archivos relacionados y comportamiento de numerosos comandos, funciones y componentes del sistema.
+
+| Opción | Descripción |
+|---|---|
+| `-C configuración` | Indica un fichero de configuración distinto a `/etc/man.conf`. |
+| `-M ruta` | Indica en qué directorios se buscarán las páginas man. |
+| `-P paginador` | Indica el paginador (programa que da formato y visualiza las páginas). Por defecto es el indicado en la variable de entorno `PAGER`. Los paginadores `more` y `less` son los más utilizados. |
+| `-S lista` | Indica una lista de las secciones a buscar separadas por dos puntos (`:`). |
+| `-a` | Indica que han de mostrarse todas las entradas coincidentes y no solo la primera. |
+| `-c` | Indica que la página fuente ha de ser reformateada. |
+| `-d` | Mostrará información de debug en lugar de las páginas man. |
+| `-f` | Indica que el programa `man` debe comportarse como el programa `whatis` (se explicará más adelante). |
+| `-h` | Muestra información sobre el comando `man`. |
+| `-k` | Indica que el programa `man` debe comportarse como el programa `apropos` (se explicará más adelante). |
+| `-K` | Busca una cadena especificada en las páginas man. Por cada entrada encontrada se le pregunta al usuario si desea verla. |
+| `-m` | Indica un conjunto alternativo de páginas man basado en el sistema especificado. |
+| `-w` | Indica que ha de visualizarse el path de las páginas man. |
+
+### Secciones del manual
+
+| Sección | Contenido                                        |
+| ------: | ------------------------------------------------ |
+|     `1` | Comandos ejecutables y programas de usuario      |
+|     `2` | Llamadas al sistema                              |
+|     `3` | Funciones de biblioteca                          |
+|     `4` | Archivos especiales y dispositivos               |
+|     `5` | Formatos de archivos y archivos de configuración |
+|     `6` | Juegos                                           |
+|     `7` | Miscelánea y convenciones                        |
+|     `8` | Comandos de administración del sistema           |
 
 
 ---

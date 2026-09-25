@@ -36,3 +36,11 @@ A medida que avance la formación, este listado se irá actualizando.
 ## 📌 Nota
 
 Este repositorio funciona como registro de aprendizaje y documentación de las prácticas realizadas durante la formación. Los proyectos de infraestructura independientes y laboratorios más completos se encuentran organizados en repositorios separados.
+
+## 📄 Licencia
+
+Este repositorio contiene material de estudio, documentación, ejemplos y prácticas desarrolladas por mí durante mi formación como Linux Engineer.
+
+El contenido de mi autoría se distribuye bajo la licencia MIT.
+
+El material de terceros, incluyendo documentación, imágenes o contenido perteneciente a otras personas u organizaciones, mantiene sus respectivas licencias y derechos de autor.

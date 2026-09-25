@@ -44,6 +44,21 @@ Una ruta relativa se interpreta tomando como referencia el directorio actual.
 documentos/archivo.txt
 ```
 
+### FHS
+
+FHS (Filesystem Hierarchy Standard), un estándar a seguir para las
+distribuciones de Linux, que se refiere a la forma en que se utiliza el sistema de archivos en Linux.
+Los FHS se dividen en dos grupos principalmente:
+
+* Shareables/Unshareables 
+
+Los datos pueden ser usados pos multiples sistemas en una *red*. Por ende, los archivos son compartidos.
+
+* Variables/Static
+
+
+
+
 ---
 
 ## Navegación

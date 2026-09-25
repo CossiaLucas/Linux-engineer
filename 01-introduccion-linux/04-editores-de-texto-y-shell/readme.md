@@ -543,5 +543,73 @@ vim ejemplo.txt
 
 --- 
 
-## Shell e interpretacion de comandos 
+# Shell e interpretacion de comandos 
 
+Una vez que el usuario se ha identificado dentro del sistema Linux, se enfrenta con el shell, que aparece simplemente como una interfaz de línea de comandos.
+
+El shell cuenta con un indicador para ingresar comandos llamado prompt, esos comandos son interpretados por el shell y enviados al sistema.
+El shell que se esté corriendo en ese momento configura su prompt correspondiente.
+
+La mayoría de los sistemas Linux tienen como predeterminado el shell `bash` que, generalmente,
+está configurado para mostrar el nombre de usuario, nombre del servidor y directorio actual de trabajo en el prompt.
+
+``` bash
+[lucascossia@debian13 ~]$
+```
+
+Existen varios tipos de shell. Difieren ligeramente en sintaxis, funcionalidades y configuración. La mayoría de las distribuciones de Linux usan de manera predeterminada el shell bash. 
+
+## Concatenacion de comandos
+
+Se pueden ejecutar varios comandos, sin que estén conectados entre sí, tipeándolos en la misma línea separados por punto y coma `;`.
+Por ejemplo, es posible listar todos los archivos del directorio actual y la fecha de hoy tecleando:
+
+``` bash
+ls ; date
+```
+
+También podemos ejecutar varios comandos a la vez con los *operadores lógicos* `&&` , `||`. En este caso, solo ejecuta el
+comando si cumple con la función lógica dado que, cuando un comando se ejecuta, devuelve un estado `0` bien u otro valor mayor que `0` que se interpreta como **error**.
+
+## Arquitectura
+
+Es importante saber qué tipo de hardware y software se está utilizando, antes de entender y monitorear procesos. 
+El comando `uname` nos permite obtener esta información. En la próxima slide se muestra su utilización.
+
+# Comportamiento de bash
+
+Bash usa un conjunto de funciones llamado `readline` al ingresar comandos.
+Existen dos modos de operaciones de readline: Vi y Emacs. El nombre Emacs se debe al nombre de un editor que en algún momento fue muy popular en Linux. 
+A continuación se verán algunas de sus características.
+
+| Comando    | Funcion  |
+| --- | --- |
+| `Ctrl + t` | Intercambia la posición del carácter. | 
+| `Alt + f`  | Mueve el cursor a la siguiente palabra. |
+| `Alt + b`  | Mueve el cursor a la anterior palabra. |
+| `Ctrl + u` | Borra la línea actual |
+
+## Completado de comandos/rutas
+
+El shell bash incluye una característica llamada ***completado de comandos***, que permite teclear sólo las primeras letras de un comando o ruta y pulsar la tecla tabulador para que el sistema lo complete.
+Si se desea ejecutar el comando dmesg para mostrar el buffer del kernel, se puede teclear:
+
+``` bash
+dm
+```
+
+Despues presionar `tab`, y el resultado sera:
+
+``` bash
+dmesg
+```
+
+# Alias
+
+Aunque el sistema operativo y el shell nos ofrecen multitud de comandos y utilidades, podemos crear alias con nombres que tengan más sentido para nosotros o que sean más pequeños y así teclear menos caracteres.
+
+``` bash
+alias l. = ls -d .* --color=auto
+```
+
+Despues con escribir `l.` se ejecutara todo el comando `'ls -d .* --color=auto`

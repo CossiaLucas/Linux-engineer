@@ -1,6 +1,6 @@
 # Linux Engineer
 
-Repositorio donde documento mi formación y prácticas realizadas durante la carrera corta **Linux Engineer** de EducaciónIT.
+Linux Engineer — Formación, prácticas y documentación técnica sobre Linux, SysAdmin, Bash e infraestructura.
 
 El objetivo de este repositorio es registrar de manera organizada los conocimientos adquiridos sobre **Linux, administración de sistemas, scripting, servidores, redes y automatización**, incluyendo prácticas, ejercicios, configuraciones y documentación técnica.
 
@@ -24,14 +24,13 @@ El objetivo de este repositorio es registrar de manera organizada los conocimien
 
 ## 🛠️ Tecnologías y herramientas
 
-A medida que avance la formación, este listado se irá actualizando.
-
-* Linux
-* Bash
-* Git / GitHub
-* Redes
-* SSH
-* ...
+- Linux
+- Bash
+- Git
+- GitHub
+- SSH
+- VirtualBox
+- Vim
 
 ## 📌 Nota
 

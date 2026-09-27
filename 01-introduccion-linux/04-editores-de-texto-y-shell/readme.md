@@ -613,3 +613,24 @@ alias l. = ls -d .* --color=auto
 ```
 
 Despues con escribir `l.` se ejecutara todo el comando `'ls -d .* --color=auto`
+
+---
+
+# Variables
+
+Las variables son parámetros con nombre que contienen valores. Se pueden crear, modificar, referenciar y hacerlas parte del entorno de ejecución.
+Un ejemplo puede ser:
+
+``` bash
+$ ej=”[soy \u en \h en el dir actual \W]\$”
+[soy lucascossia en debian13 en el dir actual etc]$
+```
+
+| Comando    | Funcion  |
+| --- | --- |
+| `\u` | Nombre de usuario. | 
+| `\h`  | Nombre de host. |
+| `\W`  | Directorio de trabajo. |
+| `\A` | Hora actual. |
+
+El sistema cuenta con algunas variables predefinidas que se pueden verificar con el comando `env`.

@@ -186,3 +186,247 @@ Esta herramienta se utiliza para consultar la caché local de la base de datos d
 Tambien vale mencionar el mas usado, que es `apt`. Una herramienta mas sencilla, es equivalente a `apt-get` y `apt-search` combinadas.
 
 Y `apt-file`, que no viene instalado de manera predeterminada, y sirve para buscar paquetes que contienen un determinado archivo.
+
+---
+
+# Paquetes RPM 
+
+RPM (RPM Package Manager) es un sistema de gestión de paquetes utilizado, entre otras, por distribuciones de la familia Red Hat como RHEL, Fedora y CentOS.
+
+La nomenclatura la podemos ver muy similar a la de `debian`
+
+``` bash
+bash-5.1.8-9.el9.x86_64.rpm
+```
+
+* `bash`   → nombre.
+* `5.1.8`  → versión.
+* `9.el9`  → release del paquete.
+* `x86_64` → arquitectura.
+
+Un RPM moderno contiene, conceptualmente:
+
+RPM
+├── Firma GPG
+├── Metadatos
+└── Payload
+
+> El payload contiene los archivos del paquete en un archivo cpio. Los metadatos contienen información como dependencias, archivos, versión, arquitectura, etc. También existen Binary RPM y Source RPM (SRPM).
+
+Para instalar, actualizar y desinstalar paquetes basta con usar el comando `rpm` junto a sus parametros:
+
+| Parametro | Funcion  |
+| --- | --- |
+| `-i` | Instala el paquete propiamente dicho. | 
+| `-e` | Desinstala el paquete. |
+| `-U` | Instala el paquete si no existe una versión instalada y actualiza el paquete si ya existe una versión anterior. |
+| `-F` | Actualiza solamente aquellos paquetes para los que ya existe una versión instalada. Si el paquete no está instalado, lo ignora. |
+| `--force` | Debe utilizarse con mucho cuidado, ya que puede sobrescribir archivos o permitir operaciones que normalmente RPM rechazaría. |
+| `-h`  | Muestra una barra de progreso mediante caracteres #. |
+| `-v`  | Muestra información adicional. |
+| `-vv` | Muestra información de depuración mucho más detallada. |
+
+Un ejemplo puede ser:
+
+``` bash
+rpm -ivh zsh-5.5.1-6.el8_1.2.x86_64.rpm
+Verifying... ################################# [100%]
+Preparando... ################################# [100%]
+Actualizando / instalando...
+1:zsh-5.5.1-6.el8_1.2 ################################# [100%
+```
+---
+
+## **Consultar qué paquete proporciona una capacidad**
+
+RPM también permite utilizar:
+
+```bash
+rpm -q --whatprovides /usr/bin/bash
+```
+
+Esto permite identificar qué paquete proporciona determinado archivo o
+capacidad.
+
+También podemos consultar qué paquetes requieren una determinada capacidad:
+
+```bash
+rpm -q --whatrequires bash
+```
+
+---
+
+# **Verificación de paquetes**
+
+RPM permite verificar los archivos pertenecientes a un paquete mediante:
+
+```bash
+rpm -V paquete
+```
+
+Por ejemplo:
+
+```bash
+rpm -V bash
+```
+
+La opción `-V` significa **verify**.
+
+RPM compara determinados atributos de los archivos instalados con la
+información registrada en su base de datos.
+
+Esto puede ayudar a detectar modificaciones en archivos pertenecientes a un
+paquete.
+
+---
+
+## **Base de datos de RPM**
+
+RPM mantiene una base de datos con información sobre los paquetes instalados.
+
+Esta información permite conocer:
+
+* Qué paquetes están instalados.
+* Qué archivos pertenecen a cada paquete.
+* Versiones instaladas.
+* Dependencias.
+* Metadatos de los paquetes.
+* Información necesaria para verificar archivos.
+
+Por ejemplo:
+
+```bash
+rpm -qa
+```
+
+no necesita buscar archivos `.rpm` almacenados en el disco.
+
+RPM consulta la información registrada en su base de datos de paquetes
+instalados.
+
+---
+
+## **RPM y las dependencias**
+
+Los paquetes RPM pueden declarar dependencias mediante información de sus
+metadatos.
+
+Por ejemplo, un paquete puede requerir:
+
+```text
+libc.so.6
+openssl
+python3
+```
+
+Si las dependencias necesarias no están disponibles, RPM puede impedir la
+instalación o actualización.
+
+Un mensaje de error podría indicar:
+
+```text
+failed dependencies:
+    libejemplo.so.1 is needed by paquete-1.0-1.x86_64
+```
+
+Esto significa que el paquete necesita una dependencia que no está disponible
+en el sistema.
+
+---
+
+# **Práctica**
+
+## **1. Listar todos los paquetes instalados**
+
+```bash
+rpm -qa
+```
+
+---
+
+## **2. Buscar un paquete instalado**
+
+```bash
+rpm -qa | grep bash
+```
+
+---
+
+## **3. Consultar información de un paquete**
+
+```bash
+rpm -qi bash
+```
+
+---
+
+## **4. Listar los archivos de un paquete**
+
+```bash
+rpm -ql bash
+```
+
+---
+
+## **5. Consultar las dependencias**
+
+```bash
+rpm -qR bash
+```
+
+---
+
+## **6. Averiguar qué paquete proporciona un archivo**
+
+```bash
+rpm -qf /etc/passwd
+```
+
+---
+
+## **7. Consultar qué paquete proporciona una capacidad**
+
+```bash
+rpm -q --whatprovides /usr/bin/bash
+```
+
+---
+
+## **8. Consultar qué paquetes requieren una capacidad**
+
+```bash
+rpm -q --whatrequires bash
+```
+
+---
+
+## **9. Verificar un paquete**
+
+```bash
+rpm -V bash
+```
+
+---
+
+## **10. Instalar un paquete RPM**
+
+```bash
+sudo rpm -ivh paquete.rpm
+```
+
+---
+
+## **11. Actualizar o instalar un paquete**
+
+```bash
+sudo rpm -Uvh paquete.rpm
+```
+
+---
+
+## **12. Actualizar únicamente paquetes ya instalados**
+
+```bash
+sudo rpm -Fvh *.rpm
+```
+

@@ -233,8 +233,9 @@ rpm -ivh zsh-5.5.1-6.el8_1.2.x86_64.rpm
 Verifying... ################################# [100%]
 Preparando... ################################# [100%]
 Actualizando / instalando...
-1:zsh-5.5.1-6.el8_1.2 ################################# [100%
+1:zsh-5.5.1-6.el8_1.2 ################################# [100%]
 ```
+
 ---
 
 ## **Consultar qué paquete proporciona una capacidad**
@@ -428,5 +429,229 @@ sudo rpm -Uvh paquete.rpm
 
 ```bash
 sudo rpm -Fvh *.rpm
+```
+
+# Paquetes YUM
+
+El gestor de paquetes `YUM` (YellowDog Updater Modified) ofrece una manera rápida de instalar paquetes.
+Se pueden actualizar, instalar y remover paquetes. El gestor tiene funciones muy similares a la de `rpm`, pero con la particularidad de que puede administrar toda la resolución e instalación de dependencias de paquetes. 
+
+Además, Yum permite cargar múltiples repositorios de paquetes de manera muy sencilla. Un repositorio es una fuente organizada de paquetes RPM acompañada por metadatos que permiten al gestor conocer qué paquetes existen, qué versiones están disponibles y cuáles son sus dependencias.
+
+Toda la configuracion de YUM se realiza en el archivo `/etc/yum.conf` y los repositorios se encuentran en el archivo `/etc/yum.repos.d`
+
+Un ejemplo de repositorios puede ser:
+
+``` bash
+[mi-repositorio]
+name=Mi repositorio
+baseurl=https://repo.example.com/packages/
+enabled=1
+gpgcheck=1
+gpgkey=https://repo.example.com/RPM-GPG-KEY
+```
+
+Ahora vamos a presentar un ejemplo de como instalar y desinstalar un paquete como `postgreSQL`
+
+``` bash
+# yum install postgresql
+Resolving Dependencies
+Install 2 Package(s)
+Is this ok [y/N]: y
+Package(s) data still to download: 3.0 M
+(1/2): postgresql-9.0.4-5.fc15.x86_64.rpm | 2.8 MB 00:11
+(2/2): postgresql-libs-9.0.4-5.fc15.x86_64.rpm | 203 kB 00:00
+------------------------------------------------------------------
+Total 241 kB/s | 3.0 MB 00:12
+Running Transaction
+Installing : postgresql-libs-9.0.4-5.fc15.x86_64 1/2
+Installing : postgresql-9.0.4-5.fc15.x86_64 2/2
+Complete!
+```
+
+``` bash
+# yum remove postgresql
+Resolving Dependencies
+---> Package postgresql.x86_64 0:9.0.4-5.fc15 will be erased
+Is this ok [y/N]: y
+Running Transaction
+Erasing : postgresql-9.0.4-5.fc15.x86_64 1/1
+Removed:
+postgresql.x86_64 0:9.0.4-5.fc15
+Complete!
+``` 
+
+Si se tiene una versión vieja de un paquete, podemos utilizar `yum update paquete` para actualizarlo a la última versión.
+
+``` bash
+yum update postgresql
+```
+
+
+Si no se especifica el paquete, yum actualizará todos los paquetes:
+
+``` bash
+yum update
+```
+
+## Realizar consultas o busquedas
+
+Podemos utilizar `check-update` para verificar si hay actualizaciones de paquetes disponibles.
+
+``` bash
+yum check-update
+```
+
+Y tambien podemos buscar los paquetes disponibles 
+
+``` bash
+yum search firefox
+Loaded plugins: langpacks, presto, refresh-packagekit
+============== N/S Matched: firefox ======================
+firefox.x86_64 : Mozilla Firefox Web browser
+gnome-do-plugins-firefox.x86_64 : gnome-do-plugins for firefox
+mozilla-firetray-firefox.x86_64 : System tray extension for firefox
+mozilla-adblockplus.noarch : Adblocking extension for Mozilla Firefox
+mozilla-noscript.noarch : JavaScript white list extension for Mozilla Firefox
+```
+
+Despues tambien hay distintos comandos como:
+
+``` bash
+yum repolist
+```
+
+Que permite ver los repositorios habilitados.
+
+``` bash
+yum repolist all
+```
+
+Para mostrar habilitados y deshabilitados, cuando la versión de YUM lo soporte.
+
+``` bash
+yum info nginx
+```
+
+Permite obtener información sobre un paquete.
+
+``` bash
+yum list installed
+```
+
+Permite mostrar informacion sobre los paquetes instalados.
+
+``` bash
+yum list available
+```
+
+Permite mostrar informacion sobre los paquetes disponibles.
+
+``` bash
+yum list | less
+```
+
+Mostrará una lista de todos los paquetes disponibles que hay en la base de datos yum.
+
+Supongamos que necesitás encontrar qué paquete proporciona un archivo:
+
+``` bash
+yum provides /usr/bin/nmap
+```
+
+La idea es:
+"Tengo este archivo/comando, ¿qué paquete necesito instalar para obtenerlo?"
+
+## Tareas adicionales
+
+Para instalar un grupo específico de programas, utilizamos la opción `groupinstall`. Se instalará el grupo “DNS Name Server”, el cual trae por dependencia el paquete `bind-chroot`.
+
+``` bash
+yum groupinstall 'DNS Name Server'
+Dependencies Resolved
+Install 2 Package(s)
+Is this ok [y/N]: y
+Package(s) data still to download: 3.6 M
+(1/2): bind-9.8.0-9.P4.fc15.x86_64.rpm | 3.6 MB 00:15
+(2/2): bind-chroot-9.8.0-9.P4.fc15.x86_64.rpm | 69 kB 00:00
+-----------------------------------------------------------------
+Total 235 kB/s | 3.6 MB 00:15
+Installed:
+bind-chroot.x86_64 32:9.8.0-9.P4.fc15
+Dependency Installed:
+bind.x86_64 32:9.8.0-9.P4.fc15
+Complete!
+```
+
+Si ya disponemos de un grupo de paquetes para actualizarlos todos juntos podemos utilizar. 
+
+``` bash
+yum groupupdate 'DNS Name Server'
+```
+
+Y lo mismo podemos realizar para desinstalar los grupos de paquetes
+
+``` bash
+yum groupremove 'DNS Name Server'
+Dependencies Resolved
+Remove 2 Package(s)
+Is this ok [y/N]: y
+Running Transaction
+Erasing : 32:bind-chroot-9.8.0-9.P4.fc15.x86_64 1/2
+Erasing : 32:bind-9.8.0-9.P4.fc15.x86_64 2/2
+Complete!
+```
+
+Algo importante tambien es limpiar la caché
+Yum puede guardar en una caché:
+* Paquetes descargados antes de instalarlos.
+* Encabezados.
+* Metadatos de paquetes.
+* Metadatos de la caché sqlite.
+* Datos de la base local de RPM
+
+``` bash
+yum clean all
+```
+
+Se utiliza principalmente cuando hay problemas con metadatos o caché, o cuando necesitamos reconstruir la información local.
+
+## DNF
+
+Es un gestor de paquetes que utiliza las librerías `hawkey` y `libdnf`. En versiones recientes de Fedora dnf ha reemplazado a Yum como herramienta predeterminada para administrar paquetes.
+
+La sintaxis de dnf y Yum son muy similares. Usa como archivo de configuración `/etc/dnf/dnf.conf` y usa los mismos archivos de repositorios que Yum.
+Algunos sub-comandos que vienen separados en Yum, ya vienen integrados en dnf, por ejemplo:
+
+``` bash
+dnf download mc
+```
+
+---
+
+## Algunos comandos mas
+
+Es un gestor de paquetes para sistemas Debian y su utilización es muy similar al apt. La diferencia está en su interfaz en modo texto para el manejo del sistema de paquetes, además, utiliza un algoritmo distinto para manejar dependencias, por lo que debe usarse con precaución.
+
+Tanto apt como aptitude comparten el mismo archivo sources.list.
+
+Su sintaxis es la siguiente:
+
+``` bash
+aptitude [opciones] [comando] [paquetes]
+```
+
+### Ejemplos
+
+``` bash
+aptitude search mc
+```
+
+``` bash
+aptitude update
+```
+
+``` bash
+aptitude install mc
 ```
 

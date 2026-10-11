@@ -6,11 +6,13 @@ El objetivo de este repositorio es registrar de manera organizada los conocimien
 
 ## 📚 Contenido
 
-| Curso                                                 | Descripción                                                                                                   |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+
+
+| Curso | Descripción |
+| --- | --- |
 | [01 - Introducción a Linux](./01-introduccion-linux/) | Fundamentos de Linux, instalación, terminal, sistema de archivos, usuarios, permisos y administración básica. |
-| [02 - Introduccion a Redes](./02-introduccion-a-redes/) | Administración y gestión de sistemas Linux.|
-| [02 - Introduccion a Bases de datos](./03-introduccion-BD-y-sql/) | Automatización de tareas mediante Bash y Shell Scripting.|
+| [02 - Introduccion a Redes](./02-introduccion-a-redes/) | Fundamentos de redes informáticas, comprender cómo se comunican los dispositivos y estudiar los mecanismos que permiten el direccionamiento y la transmisión de datos. |
+| [03 - Introduccion a Bases de datos](./03-introduccion-BD-y-sql/) | Fundamentos de las bases de datos, su organización y los mecanismos para almacenar, consultar, modificar y administrar información estructurada. |
 | ... | Próximamente|
 
 ## 🎯 Objetivos

@@ -89,9 +89,3 @@ Algunos ejemplos:
 * GitHub
 * Máquina virtual / entorno de laboratorio
 
-## 📈 Aprendizajes
-
-> Esta sección se irá actualizando a medida que avance el curso.
-
-Al finalizar el curso, registraré aquí los principales conocimientos adquiridos y las prácticas que considere más relevantes.
-

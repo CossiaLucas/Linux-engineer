@@ -1,12 +1,6 @@
 # **Gestión de usuarios y grupos**
 
-La gestión de usuarios y grupos es una de las tareas fundamentales de la administración de sistemas Linux.
-
-Los usuarios permiten identificar y controlar quién puede acceder al sistema, mientras que los grupos permiten organizar permisos y recursos de forma colectiva.
-
-En Linux, prácticamente todas las operaciones sobre archivos y procesos se realizan teniendo en cuenta la identidad del usuario y los grupos a los que pertenece.
-
-Antes de estudiar los comandos de creación y administración, es importante comprender cómo Linux almacena esta información.
+La gestión de usuarios y grupos es una de las tareas fundamentales de la administración de sistemas Linux. Los usuarios permiten identificar y controlar quién puede acceder al sistema, mientras que los grupos permiten organizar permisos y recursos de forma colectiva. Antes de estudiar los comandos de creación y administración, es importante comprender cómo Linux almacena esta información.
 
 ---
 
@@ -105,21 +99,9 @@ sudo chage -l lucacoss
 
 `/etc/group` contiene información sobre los grupos locales del sistema.
 
-Cada línea representa **un grupo**, no un usuario.
-
-Ejemplo:
-
-```text
-sudo:x:27:lucacoss
-```
+Cada línea representa **un grupo**.
 
 La estructura es:
-
-```text
-grupo:GID:usuarios
-```
-
-En realidad, `/etc/group` posee cuatro campos:
 
 ```text
 grupo:password:GID:usuarios
@@ -182,21 +164,6 @@ Podemos consultarlo con:
 cat /etc/login.defs
 ```
 
-Por ejemplo:
-
-```bash
-grep -E '^(UID_MIN|UID_MAX|GID_MIN|GID_MAX|PASS_MAX_DAYS|PASS_MIN_DAYS|PASS_WARN_AGE)' /etc/login.defs
-```
-
-Entre los parámetros que podemos encontrar están:
-
-- rangos de UID;
-- rangos de GID;
-- valores predeterminados relacionados con expiración de contraseñas;
-- configuración utilizada por herramientas de creación de cuentas.
-
-> Los valores efectivos pueden depender también de la distribución y de las herramientas instaladas. Por eso conviene consultar siempre la documentación de la distribución utilizada.
-
 ---
 
 # **Directorio `/etc/skel`**
@@ -236,13 +203,6 @@ Esto permite que los nuevos usuarios comiencen con una configuración inicial de
 ---
 
 # **Gestión de usuarios**
-
-Las cuentas locales están representadas principalmente mediante:
-
-```text
-/etc/passwd
-/etc/shadow
-```
 
 Cuando se crea un usuario, Linux debe establecer diferentes atributos:
 
@@ -291,24 +251,14 @@ Podemos comprobar la cuenta:
 
 ```bash
 id labuser
-```
-
-Ejemplo:
-
-```text
-uid=1001(labuser) gid=1001(labuser) groups=1001(labuser)
+     uid=1001(labuser) gid=1001(labuser) groups=1001(labuser)
 ```
 
 También podemos consultar su entrada en `/etc/passwd`:
 
 ```bash
 getent passwd labuser
-```
-
-Resultado:
-
-```text
-labuser:x:1001:1001::/home/labuser:/bin/bash
+     labuser:x:1001:1001::/home/labuser:/bin/bash
 ```
 
 ## **Opciones importantes de `useradd`**
@@ -340,12 +290,7 @@ Podemos verificar:
 
 ```bash
 id devuser
-```
-
-Resultado posible:
-
-```text
-uid=1002(devuser) gid=1003(devuser) groups=1003(devuser),1002(syslab)
+     uid=1002(devuser) gid=1003(devuser) groups=1003(devuser),1002(syslab)
 ```
 
 ---
@@ -373,7 +318,7 @@ touch archivo.txt
 ls -l archivo.txt
 ```
 
-Podríamos obtener:
+Obtenemos:
 
 ```text
 -rw-r--r-- 1 devuser devuser 0 archivo.txt
@@ -475,14 +420,6 @@ Este es un comando muy importante:
 sudo usermod -aG syslab devuser
 ```
 
-La combinación:
-
-```bash
--aG
-```
-
-significa **agregar (`-a`) el usuario a los grupos especificados (`-G`) sin eliminar los grupos secundarios existentes**.
-
 > Es importante utilizar `-aG` y no solamente `-G`. Si utilizamos `-G` sin `-a`, podemos reemplazar la lista actual de grupos secundarios del usuario.
 
 Después podemos verificar:
@@ -519,17 +456,7 @@ Para eliminar también el home:
 sudo userdel -r labuser
 ```
 
-La opción `-r` elimina el directorio personal y el contenido que se encuentre allí, además de la cuenta.
-
-> Antes de utilizar `-r`, debemos verificar que no existan datos que necesitemos conservar.
-
-### **Opción `-f`**
-
-```bash
-sudo userdel -f labuser
-```
-
-`-f` fuerza determinadas operaciones de eliminación incluso en situaciones en las que normalmente `userdel` no las realizaría.
+Tambien esta `-f`. Que fuerza determinadas operaciones de eliminación incluso en situaciones en las que normalmente `userdel` no las realizaría.
 
 Es una opción potencialmente peligrosa y no debería utilizarse como método habitual para eliminar usuarios.
 
